@@ -13,7 +13,21 @@
 
 <body>
     <h1>Rock Paper Scissors Game!</h1>
-
+<main class="game">
+    <div class="options">
+        <div class="score">
+            <div class="score-container player">
+                <p class="score-text ">You</p>
+                <p id="score-player" class="score-number">0</p>
+            </div>
+            <div class="score-container cpu">
+                <p class="score-text">CPU</p>
+                <p id="score-cpu" class="score-number">0</p>
+            </div>
+        </div>
+        <div class="option-text" id="play">Play Again</div>
+        <div class="option-text" id="reset">Reset Game</div>
+    </div>
     <div class="choices">
         <div id="choice" data-id="rock" class="choice">
             <img src="img/rock.png" alt="rock image" width="150" height="150">
@@ -31,8 +45,9 @@
         </div>
 
     </div>
+</main>
 
-    <div class="game" id="game"></div>
+    <div id="game-result"></div>
     <script src="script.js"></script>
 </body>
 

@@ -31,9 +31,55 @@ img {
 h1 {
     text-align: center;
     font-size: 10rem;
-    background: linear-gradient(#ffffff 30%, #fa7e24 80%);
+    background: linear-gradient(#fa7e24 30%, #ffffff 80% );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.game {
+    display: flex;
+    align-items: flex-end   ;
+    justify-content: center;
+    gap: 10rem;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+    justify-content: end;
+}
+.option-text{
+    color: #ffffff;
+    font-size: 4rem;
+    transition-property: transform;
+    transition-duration: 300ms;
+    cursor: pointer;
+}
+.option-text:hover {
+    transform: scale(1.1);
+}
+
+.score{
+    display: flex;
+    justify-content: space-around;
+    color: #ffffff;
+    font-size: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.score-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.score-text {
+    margin: 0;
+}
+.player {
+    color: #fe990d;
+}
+.cpu {
+    color: #66ecfe;
 }
 
 .choices {
@@ -90,16 +136,23 @@ h1 {
 }
 
 .winner {
-    color: #66ecfe;
+    color: #fe990d;
 }
 
 .loser {
-    color: #fb6050;
+    color: #66ecfe;
 }
 
 .tied {
     color: #fee63f;
 }
-.computer {
-    border: 1px solid #fee63f;
+
+.playerSelected {
+    background-color: rgb(254, 153, 13, 0.5);
+}
+.computerSelected {
+    background-color: rgb(102, 236, 254, 0.5);
+}
+.tiedSelected {
+    background-color:  rgb(254, 230, 63, 0.5);
 }
