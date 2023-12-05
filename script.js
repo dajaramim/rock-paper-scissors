@@ -1,4 +1,4 @@
-const gameOption = ["rock", "paper", "scissors"]
+// Variables
 const play = document.querySelector('#play');
 const reset = document.querySelector('#reset');
 const scorePlayerHTML = document.querySelector('#score-player');
@@ -11,6 +11,7 @@ let computerChoice;
 let playerScore = 0;
 let computerScore = 0;
 
+// Events
 eventListeners()
 function eventListeners() {
     choices.forEach(choice => {
@@ -21,7 +22,6 @@ function eventListeners() {
 }
 
 // Functions
-
 function playAgain() {
     clearHTML()
     clearChoice()
@@ -33,34 +33,40 @@ function resetScore() {
     scorePlayerHTML.textContent = 0;
     scoreComputerHTML.textContent = 0;
 }
+function clearHTML() {
+    while (gameResult.firstChild) {
+        gameResult.removeChild(gameResult.firstChild)
+    }
+}
+
+function clearChoice() {
+    choices.forEach(choice => {
+        choice.classList.remove('choice--selected', 'computer', 'playerSelected', 'computerSelected', 'tiedSelected');
+    })
+}
 
 function getPlayerChoice(e) {
     clearChoice()
     const selectedChoice = !e.target.classList.contains("choice") ? e.target.parentNode : e.target;
     if (playerScore + computerScore >= 5) return
-    computerChoice = getComputerChoice()
+    computerChoice = getComputerChoice()  
+    playerChoice = selectedChoice.getAttribute('data-id')
 
-    if (!e.target.classList.contains("choice")) {
-        playerChoice = e.target.parentNode.getAttribute('data-id')
-    } else {
-        playerChoice = e.target.getAttribute('data-id')
-    }
     if (playerChoice === computerChoice) {
-        selectedChoice.classList.add('choice-selected', 'tiedSelected');
+        selectedChoice.classList.add('choice--selected', 'tiedSelected');
     } else {
         choices.forEach(choice => {
             if (choice.getAttribute('data-id') === computerChoice) {
-                choice.classList.add('computerSelected', 'choice-selected');
+                choice.classList.add('computerSelected', 'choice--selected');
             }
-        });
-        
-        selectedChoice.classList.add('choice-selected', 'playerSelected');
+        });      
+        selectedChoice.classList.add('choice--selected', 'playerSelected');
     }
-
     showGame()
 }
 
 function getComputerChoice() {
+    const gameOption = ["rock", "paper", "scissors"]
     let randomNumber = Math.floor(Math.random() * gameOption.length) // 3 because it is the number of available options in the game.
     return gameOption[randomNumber]
 }
@@ -70,6 +76,7 @@ function showGame() {
     const winner = getWinner(playerChoice, computerChoice)
     const winnerHTML = document.createElement('p')
     const gameDiv = document.createElement('div')
+
     if (playerScore + computerScore >= 5) {
         winnerHTML.textContent = playerScore > computerScore ? "You are the winner in the best of 5 rounds!" : "You lose, the CPU destroyed you!"
         playerScore > computerScore ? gameDiv.classList.add('winner') : gameDiv.classList.add('loser')
@@ -90,41 +97,28 @@ function showGame() {
     scorePlayerHTML.textContent = playerScore;
     scoreComputerHTML.textContent = computerScore;
 
-
     gameDiv.appendChild(winnerHTML)
     gameResult.appendChild(gameDiv)
 
 }
-
-function clearHTML() {
-    while (gameResult.firstChild) {
-        gameResult.removeChild(gameResult.firstChild)
-    }
-}
-
-function clearChoice() {
-    choices.forEach(choice => {
-        choice.classList.remove('choice-selected', 'computer', 'playerSelected', 'computerSelected', 'tiedSelected');
-    })
-}
-
 function getWinner(player, computer) {
-
     if (player === computer) {
         result = 'tied'
         return "Tied!"
     }
     else if (player === "rock" && computer === "paper"
         || player === "paper" && computer === "scissors"
-        || player === "scissors" && computer === "rock") { //second column
+        || player === "scissors" && computer === "rock") { 
         result = 'loser'
         computerScore++
         return `You Lose! ${computer} beats ${player}`
     }
-    else { // third column
+    else { 
         result = 'winner'
         playerScore++
         return `You Win! ${player} beats ${computer}`
     }
 }
-/* const winner = playerScore > computerScore ? "You are the winner in the best of 5 rounds!" : "You lose, the computer has completely destroyed you!" */
+
+
+

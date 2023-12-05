@@ -12,40 +12,42 @@
 </head>
 
 <body>
-    <h1>Rock Paper Scissors Game!</h1>
-<main class="game">
-    <div class="options">
-        <div class="score">
-            <div class="score-container player">
-                <p class="score-text ">You</p>
-                <p id="score-player" class="score-number">0</p>
+    <h1 class="heading">Rock Paper Scissors Game!</h1>
+    <div class="game">
+        <div class="game__scores">
+            <div class="score">
+                <div class="score__container score__container--player">
+                    <p class="score__text">You</p>
+                    <p id="score-player">0</p>
+                </div>
+                <div class="score__container score__container--cpu">
+                    <p class="score__text">CPU</p>
+                    <p id="score-cpu">0</p>
+                </div>
             </div>
-            <div class="score-container cpu">
-                <p class="score-text">CPU</p>
-                <p id="score-cpu" class="score-number">0</p>
+            <div class="option">
+                <div class="option__text" id="play">Play Again</div>
+                <div class="option__text" id="reset">Reset Score</div>
             </div>
         </div>
-        <div class="option-text" id="play">Play Again</div>
-        <div class="option-text" id="reset">Reset Game</div>
+        <div class="game__choices">
+            <div class="choice" id="choice" data-id="rock">
+                <img src="img/rock.png" alt="rock image" width="150" height="150">
+                <p class="choice__text">Rock!</p>
+            </div>
+            <div class="choice" id="choice" data-id="paper">
+                <img src="img/paper.png" alt="paper image" width="150" height="150">
+
+                <p class="choice__text">Paper!</p>
+            </div>
+            <div class="choice" id="choice" data-id="scissors">
+                <img src="img/scissors.png" alt="scissors image" width="150" height="150">
+
+                <p class="choice__text">Scissors!</p>
+            </div>
+
+        </div>
     </div>
-    <div class="choices">
-        <div id="choice" data-id="rock" class="choice">
-            <img src="img/rock.png" alt="rock image" width="150" height="150">
-            <p class="choice-text">Rock!</p>
-        </div>
-        <div id="choice" data-id="paper" class="choice">
-            <img src="img/paper.png" alt="paper image" width="150" height="150">
-
-            <p class="choice-text">Paper!</p>
-        </div>
-        <div id="choice" data-id="scissors" class="choice">
-            <img src="img/scissors.png" alt="scissors image" width="150" height="150">
-
-            <p class="choice-text">Scissors!</p>
-        </div>
-
-    </div>
-</main>
 
     <div id="game-result"></div>
     <script src="script.js"></script>
