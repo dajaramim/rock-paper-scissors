@@ -5,6 +5,7 @@ const scorePlayerHTML = document.querySelector('#score-player');
 const scoreComputerHTML = document.querySelector('#score-cpu');
 const choices = document.querySelectorAll('#choice');
 const gameResult = document.querySelector('#game-result');
+const choicesArray = [...choices];
 let result;
 let playerChoice;
 let computerChoice;
@@ -23,11 +24,13 @@ function eventListeners() {
 
 // Functions
 function playAgain() {
+    if (playerScore + computerScore >= 5) return
     clearHTML()
     clearChoice()
 }
 function resetScore() {
-    playAgain()
+    clearHTML()
+    clearChoice()
     playerScore = 0;
     computerScore = 0;
     scorePlayerHTML.textContent = 0;
@@ -41,26 +44,26 @@ function clearHTML() {
 
 function clearChoice() {
     choices.forEach(choice => {
-        choice.classList.remove('choice--selected', 'computer', 'playerSelected', 'computerSelected', 'tiedSelected');
+        choice.classList.remove('choice--selected', 'computer', 'playerSelected', 'computerSelected', 'tiedSelected','choice--no-hover');
     })
 }
 
 function getPlayerChoice(e) {
-    clearChoice()
+    if (choicesArray.some(choice => choice.classList.contains('choice--selected'))) return
     const selectedChoice = !e.target.classList.contains("choice") ? e.target.parentNode : e.target;
     if (playerScore + computerScore >= 5) return
     computerChoice = getComputerChoice()  
     playerChoice = selectedChoice.getAttribute('data-id')
 
     if (playerChoice === computerChoice) {
-        selectedChoice.classList.add('choice--selected', 'tiedSelected');
+        selectedChoice.classList.add('choice--selected', 'tiedSelected','choice--no-hover');
     } else {
         choices.forEach(choice => {
             if (choice.getAttribute('data-id') === computerChoice) {
                 choice.classList.add('computerSelected', 'choice--selected');
             }
         });      
-        selectedChoice.classList.add('choice--selected', 'playerSelected');
+        selectedChoice.classList.add('choice--selected', 'playerSelected','choice--no-hover' );
     }
     showGame()
 }
