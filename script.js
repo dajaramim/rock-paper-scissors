@@ -1,66 +1,124 @@
-const gameOption = ["rock", "paper", "scissors"]
-const choices = document.querySelector('#choices');
-const game = document.querySelector('#game');
+// Variables
+const play = document.querySelector('#play');
+const reset = document.querySelector('#reset');
+const scorePlayerHTML = document.querySelector('#score-player');
+const scoreComputerHTML = document.querySelector('#score-cpu');
+const choices = document.querySelectorAll('#choice');
+const gameResult = document.querySelector('#game-result');
+let result;
 let playerChoice;
 let computerChoice;
+let playerScore = 0;
+let computerScore = 0;
 
+// Events
 eventListeners()
 function eventListeners() {
-    choices.addEventListener('click', getPlayerChoice)
+    choices.forEach(choice => {
+        choice.addEventListener('click', getPlayerChoice)
+    });
+    play.addEventListener('click', playAgain)
+    reset.addEventListener('click', resetScore)
 }
 
 // Functions
-
-function getPlayerChoice(e) {
-    if (e.target.classList.value) {
-        playerChoice = e.target.classList.value
-        computerChoice = getComputerChoice()
-        showGame()
+function playAgain() {
+    clearHTML()
+    clearChoice()
+}
+function resetScore() {
+    playAgain()
+    playerScore = 0;
+    computerScore = 0;
+    scorePlayerHTML.textContent = 0;
+    scoreComputerHTML.textContent = 0;
+}
+function clearHTML() {
+    while (gameResult.firstChild) {
+        gameResult.removeChild(gameResult.firstChild)
     }
 }
 
+function clearChoice() {
+    choices.forEach(choice => {
+        choice.classList.remove('choice--selected', 'computer', 'playerSelected', 'computerSelected', 'tiedSelected');
+    })
+}
+
+function getPlayerChoice(e) {
+    clearChoice()
+    const selectedChoice = !e.target.classList.contains("choice") ? e.target.parentNode : e.target;
+    if (playerScore + computerScore >= 5) return
+    computerChoice = getComputerChoice()  
+    playerChoice = selectedChoice.getAttribute('data-id')
+
+    if (playerChoice === computerChoice) {
+        selectedChoice.classList.add('choice--selected', 'tiedSelected');
+    } else {
+        choices.forEach(choice => {
+            if (choice.getAttribute('data-id') === computerChoice) {
+                choice.classList.add('computerSelected', 'choice--selected');
+            }
+        });      
+        selectedChoice.classList.add('choice--selected', 'playerSelected');
+    }
+    showGame()
+}
+
 function getComputerChoice() {
-    // random number
-    let randomNumber = Math.floor(Math.random() * 3) // 3 because it is the number of available options in the game.
+    const gameOption = ["rock", "paper", "scissors"]
+    let randomNumber = Math.floor(Math.random() * gameOption.length) // 3 because it is the number of available options in the game.
     return gameOption[randomNumber]
 }
 
 function showGame() {
     clearHTML()
-    const playerGame = document.createElement('p')
-    const computerGame = document.createElement('p')
-    const winner = document.createElement('p')
+    const winner = getWinner(playerChoice, computerChoice)
+    const winnerHTML = document.createElement('p')
     const gameDiv = document.createElement('div')
 
-    playerGame.textContent = playerChoice;
-    computerGame.textContent = computerChoice;
-    winner.textContent = getWinner(playerChoice, computerChoice)
-
-    gameDiv.appendChild(playerGame)
-    gameDiv.appendChild(computerGame)
-    gameDiv.appendChild(winner)
-    game.appendChild(gameDiv)
-
-
-}
-
-function clearHTML() {
-    while (game.firstChild) {
-        game.removeChild(game.firstChild)
+    if (playerScore + computerScore >= 5) {
+        winnerHTML.textContent = playerScore > computerScore ? "You are the winner in the best of 5 rounds!" : "You lose, the CPU destroyed you!"
+        playerScore > computerScore ? gameDiv.classList.add('winner') : gameDiv.classList.add('loser')
     }
-}
+    else {
+        winnerHTML.textContent = winner
+        if (result === 'winner') {
+            gameDiv.classList.add('winner')
+        } else if (result === 'loser') {
+            gameDiv.classList.add('loser')
+        } else {
+            gameDiv.classList.add('tied')
+        }
+    }
+    winnerHTML.classList.add('winner-text')
+    gameDiv.classList.add('game-result')
 
+    scorePlayerHTML.textContent = playerScore;
+    scoreComputerHTML.textContent = computerScore;
+
+    gameDiv.appendChild(winnerHTML)
+    gameResult.appendChild(gameDiv)
+
+}
 function getWinner(player, computer) {
     if (player === computer) {
+        result = 'tied'
         return "Tied!"
     }
     else if (player === "rock" && computer === "paper"
         || player === "paper" && computer === "scissors"
-        || player === "scissors" && computer === "rock") { //second column
-        return `You lose! ${computer} beats ${player}`
+        || player === "scissors" && computer === "rock") { 
+        result = 'loser'
+        computerScore++
+        return `You Lose! ${computer} beats ${player}`
     }
-    else { // third column
-        return `You win! ${player} beats ${computer}`
+    else { 
+        result = 'winner'
+        playerScore++
+        return `You Win! ${player} beats ${computer}`
     }
 }
-/* const winner = playerScore > computerScore ? "You are the winner in the best of 5 rounds!" : "You lose, the computer has completely destroyed you!" */
+
+
+
